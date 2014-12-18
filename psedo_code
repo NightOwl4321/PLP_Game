@@ -1,0 +1,9 @@
+/*
+Top bar with soultion(what to try to make), num points, and level #
+Create board(size) w/random generation solution is set for first 4 levels
+If a piece is clicked on, it is selected
+anything one y +- or x-+ can also be selected
+when the piece is selected, it has a black outline
+If a piece, and a piece on the same axis are selected, they switch
+If the board matches the soulution, win state
+*/
