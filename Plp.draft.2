@@ -1,0 +1,187 @@
+final int tileNum = 9;
+final int rows = 3;
+final int coloms = 3;
+Board board;
+Tile[] tile = new Tile[tileNum];
+Tile[] a = new Tile[tileNum];
+
+boolean selected1 = false;
+boolean selected2 = false;
+
+Tile space1;
+Tile space2;
+
+color[] solution = {
+  color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), 
+  color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), 
+  color(255, 0, 255), color(28, 131, 0), color(0, 255, 255),
+};
+
+
+String stage = "level1";
+
+int score = 0;
+int moves = 0;
+
+void setup() {
+
+  size(500, 600);
+  color[] colors = { 
+    color(255, 0, 0), color(0, 255, 0), 
+    color(0, 0, 255), color(255, 255, 0), color(255, 166, 0), 
+    color(255, 0, 255), color(28, 131, 0), color(0, 255, 255), 
+    color(111, 60, 139)
+  };
+
+  final int size = 150;
+  int counter = 0;
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      tile[counter] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, colors[counter], counter);
+      counter++;
+    }
+  }
+  int counter1 = 0;
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      a[counter1] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, solution[counter1], counter1);
+      counter1++;
+    }
+  }
+  board = new Board(color(120), 10, 110, 480, 480);
+}
+void draw() {
+  if (stage == "level1") {
+    background(200);
+    pushMatrix();
+    translate(100, -15);
+    scale(0.2);
+    fill(160);
+    rect(5, 105, 490, 490);
+    popMatrix();
+    for (int i = 0; i < tileNum; i++)
+    {
+      tile[i].display();
+      pushMatrix();
+      translate(100, -15);
+      scale(0.2);
+      a[i].display();
+      popMatrix();
+    }
+
+    fill(0);
+    text("Solution:", 10, 50);
+    textSize(20);
+    fill(0);
+    text("Score: " + score, 400, 50);
+  }
+  
+  else if (stage == "win") {
+    background(255);
+  }
+}
+
+class Board { 
+  color c;
+  float x;
+  float y;
+  float twidth;
+  float theight;
+
+  Board(color tempC, float tempX, float tempY, float tempTwidth, float tempTheight) { 
+    c = tempC;
+    x = tempX;
+    y = tempY;
+    twidth = tempTwidth;
+    theight = tempTheight;
+  }
+
+  void display() {
+    fill(c);
+    rect(x, y, twidth, theight);
+  }
+
+  void switchTiles(Tile s1, Tile s2) {
+    color sC = s2.c;
+    s2.c = s1.c;
+    s1.c = sC;
+  }
+}
+
+class Tile {
+  int x, y; // Position
+  int tileWidth, tileHeight;
+  boolean selected;
+  color c; // And its color
+  int num;
+  Tile(int tempX, int tempY, int tempTwidth, int tempTheight, boolean tempSelected, color tempC, int tempNum) { 
+    c = tempC;
+    x = tempX;
+    y = tempY;
+    tileWidth = tempTwidth;
+    tileHeight = tempTheight;
+    selected = tempSelected;
+    num = tempNum;
+  }
+
+  void display() {
+    strokeWeight(3);
+    if (selected) {
+      strokeWeight(4);
+      stroke(255);
+    } else {
+      strokeWeight(2);
+      stroke(0);
+    }
+    fill(c);
+    rect(x, y, tileWidth, tileHeight);
+  }
+  void checkIfPressed() {
+    if (mouseX >= x && mouseX <= x+tileWidth && mouseY >= y && mouseY <= y+tileHeight) {
+      if (!selected1 && !this.selected) {
+        space1 = this;
+        this.selected = true;
+        selected1 = true;
+      } else if (!selected2 && !this.selected) {
+        space2 = this;
+        this.selected = true;
+        selected2 = true;
+      }
+
+      if (selected2 && selected1) {
+        if (space1.num +1 == space2.num || space1.num == space2.num+1 || space1.num +3 == space2.num || space1.num == space2.num+3 || space1.num -1 == space2.num || space1.num == space2.num-1 || space1.num -3 == space2.num || space1.num == space2.num-3 || space1 == space2) { 
+          board.switchTiles(space1, space2);
+          moves++;
+          selected1 = false;
+          selected2 = false;
+          space1.selected = false;
+          space2.selected = false;
+        } else {
+          selected1 = false;
+          selected2 = false;
+          space1.selected = false;
+          space2.selected = false;
+        }
+      }
+    }
+  }
+}
+
+void mousePressed() {
+  for (int i = 0; i < tileNum; i++) {
+    tile[i].checkIfPressed();
+  }
+  int n = 0;
+  for (int i = 0; i < tileNum; i++) {
+    if (tile[i].c == a[i].c) {
+      n++;
+    }
+  }
+  if(n==tileNum) {
+    stage = "win";
+  }
+}
