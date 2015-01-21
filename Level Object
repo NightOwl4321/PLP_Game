@@ -1,0 +1,591 @@
+final int tileNum = 9;
+final int rows = 3;
+final int coloms = 3;
+
+//for tile switching
+boolean selected1 = false;
+boolean selected2 = false;
+
+Timer timer;
+
+//holds space in tile swap mech/
+Tile space1;
+Tile space2;
+
+//level win buttons
+Button restart;
+Button levelSelect;
+Button next;
+
+//start screen buttons
+Button instructons;
+Button levels;
+Button credits;
+
+//Back buttons
+Button back;
+Button back2;
+
+
+// for start screen animation
+color[] colors = {
+  color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), 
+  color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), 
+  color(255, 0, 255), color(28, 131, 0), color(0, 255, 255),
+};
+
+//global inisilazation
+Level currentLevel;
+
+//level 1
+Board board1;
+Level level1;
+Tile[] tileLev1 = new Tile[9];
+Tile[] answerLev1 = new Tile[9];
+
+//level 2
+Board board2;
+Level level2;
+Tile[] tileLev2 = new Tile[9];
+Tile[] answerLev2 = new Tile[9];
+
+//level 3
+Board board3;
+Level level3;
+Tile[] tileLev3 = new Tile[9];
+Tile[] answerLev3 = new Tile[9];
+
+//level 4
+Board board4;
+Level level4;
+Tile[] tileLev4 = new Tile[9];
+Tile[] answerLev4 = new Tile[9];
+
+//level 5
+Board board5;
+Level level5;
+Tile[] tileLev5 = new Tile[9];
+Tile[] answerLev5 = new Tile[9];
+
+//level 6
+Board board6;
+Level level6;
+Tile[] tileLev6 = new Tile[9];
+Tile[] answerLev6 = new Tile[9];
+
+//level 7
+Board board7;
+Level level7;
+Tile[] tileLev7 = new Tile[9];
+Tile[] answerLev7 = new Tile[9];
+
+//level 8
+Board board8;
+Level level8;
+Tile[] tileLev8 = new Tile[9];
+Tile[] answerLev8 = new Tile[9];
+
+//level 9
+Board board9;
+Level level9;
+Tile[] tileLev9 = new Tile[9];
+Tile[] answerLev9 = new Tile[9];
+
+
+//holds what page is on
+String stage = "start";
+
+//for redirect, holds where to go
+String original;
+
+//for animation on start screen
+boolean right1 = true;
+boolean right2 = false;
+int i = 0;
+int j = i+1;
+int x1 = 317;
+int x2 = 357+7;
+//close
+
+void setup() {
+
+  color[] layoutLev1 = {
+    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+  };  
+  color[] layoutLev2 = {
+    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+  };
+  color[] layoutLev3 = {
+    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+  };
+  color[] layoutLev4 = {
+    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+  };
+  color[] layoutLev5 = {
+    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+  };
+  color[] layoutLev6 = {
+    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+  };
+  color[] layoutLev7 = {
+    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+  };
+  color[] layoutLev8 = {
+    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+  };
+  color[] layoutLev9 = {
+    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+  };
+  
+  color[] solutionLayout = { 
+    color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 166, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255), color(111, 60, 139)
+  };
+
+  size(500, 600);
+
+  final int size = 150;
+  
+//set up tiles
+  int counter = 0;
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      tileLev1[counter] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, layoutLev1[counter], counter);
+      counter++;
+    }
+  }
+
+//set up solution
+  int counter1 = 0;
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      answerLev1[counter1] = new Tile(i*size+10+(i+1)*(160-size-2), j*size+110+(j+1)*(160-size-2), //x, y
+      size, size, false, solutionLayout[counter1], counter1);
+      counter1++;
+    }
+  }
+
+  board1 = new Board(color(120), 10, 110, 480, 480);
+  level1 = new Level (layoutLev1, solutionLayout, board1, tileLev1, answerLev1, 0, 0);
+
+  timer = new Timer(400, 80);
+  timer.start() ;
+}
+void draw() {
+  if (stage == "level1") {
+    level1.displayLevel();
+  } else if (stage == "win") {
+    background(#BBF3FA);
+    noStroke();
+    fill(200);
+    rect(10, 10, 480, 580, 10);
+    timer.pause();
+    int time = timer.currentTime();
+    textSize(60);
+    fill(120);
+    text("Level Complete", 30, 120);
+    restart = new Button(color(255), color(150), 60, 290, 100, 100, 100, "", false, color(0), 20, 10, 10);
+    levelSelect = new Button(color(255), color(150), 200, 290, 100, 100, 100, "", false, color(0), 20, 10, 10);
+    next = new Button(color(255), color(150), 340, 290, 100, 100, 100, "", false, color(0), 20, 10, 10);
+    if (currentLevel.moves<=8 || time <= 13) {
+      currentLevel.stars = 3;
+    } else if (currentLevel.moves <= 10 || time <=20) {
+      currentLevel.stars = 2;
+    } else if (currentLevel.moves <= 15 || time <= 25) {
+      currentLevel.stars = 1;
+    } else {
+      currentLevel.stars = 0;
+    }
+
+    for (int starC = currentLevel.stars; starC > 0; starC--) {
+      textSize(100);
+      fill(#F5E12A );
+      text("\u2605", starC*120-40, 250);
+    }
+    textSize(20);
+    restart.display();
+    levelSelect.display();
+    next.display();
+    int tX = 370;
+    int tY = 340;
+    int tS = 50;
+    triangle(tX, tY-tS/2, tX, tY+tS/2, tX+tS, tY);
+    fill(0);
+    textSize(90);
+    text("\u21BB", 65, 370);
+    float lX = 245;
+    float lY = 325;
+    float lS = 10;
+    rect(lX-lS, lY-lS, lS, lS, 5);
+    rect(lX+lS, lY-lS, lS, lS, 5);
+    rect(lX-lS, lY+lS, lS, lS, 5);
+    rect(lX+lS, lY+lS, lS, lS, 5);
+    rect(lX-lS*3, lY+lS, lS, lS, 5);
+    rect(lX-lS*3, lY-lS, lS, lS, 5);
+    rect(lX+lS*3, lY+lS, lS, lS, 5);
+    rect(lX+lS*3, lY-lS, lS, lS, 5);
+    rect(lX-lS*3, lY+lS*3, lS, lS, 5);
+    rect(lX-lS, lY+lS*3, lS, lS, 5);
+    rect(lX+lS*3, lY+lS*3, lS, lS, 5);
+    rect(lX+lS, lY+lS*3, lS, lS, 5);
+    if (restart.bPressed) {
+      stage = "reset";
+      original = "level1";
+    }
+  } else if (stage=="start") {
+    background(200);
+    fill(100);
+    textSize(70);
+    text("Tile Swa    er", 30, 100);
+    noStroke();
+    rect(310, 60, 7, 60);
+    rect(357, 60, 7, 60);
+    stroke(255);
+    if (x1 == 317) {
+      delay(1000);
+      right1 = true;
+    } else if (x1 == 357+7) {
+      delay(1000);
+      right1 = false;
+    }
+
+    if (x2 == 357+7) {
+      right2 = false;
+    } else if (x2 == 317) {
+      right2 = true;
+    } 
+    if (right1) {
+      x1++;
+    } else {
+      x1--;
+    }
+
+    if (right2) {
+      x2++;
+    } else {
+      x2--;
+    }
+
+    if (x1 == 317) {
+      if (i<colors.length-1) {
+        i++;
+      } else {
+        i = 0;
+      }
+    }
+
+    if (x2 == 317) {
+      if (j<colors.length-1) {
+        j++;
+      } else {
+        j = 0;
+      }
+    }
+
+    fill(colors[i]);
+    rect(x1, 60, 30, 30, 2);
+    fill(colors[j]);
+    rect(x2, 60, 30, 30, 2);
+    //find
+    float xA = 100;
+    float wA = 300;
+    float hA = 75;
+
+    int xOA = 30;
+    int yOA = 15;
+
+    int tSA = 40;
+    instructons = new Button(color(255), color(150), xA, 200, wA, hA, 5, "Instructions", false, color(0), tSA, xOA, yOA);
+    levels = new Button(color(255), color(150), xA, 300, wA, hA, 5, "Level Select", false, color(0), tSA, xOA, yOA);
+    credits = new Button(color(255), color(150), xA, 400, wA, hA, 5, "Credits", false, color(0), tSA, xOA+40, yOA);
+
+    //displays
+    noStroke();
+    instructons.display();
+    levels.display();
+    credits.display();
+    if (instructons.bPressed) {
+      stage = "instructions";
+    }
+    if (levels.bPressed) {
+      stage = "reset";
+      original = "level1";
+    } 
+    if (credits.bPressed) {
+      stage = "credits";
+    }
+  } else if (stage == "reset") {
+    timer.restart();
+    currentLevel.moves = 0;
+    stage = original;
+    for (int i = 0; i < tileNum; i++) {
+      currentLevel.tiles[i].c = currentLevel.startPos[i];
+    }
+  } else if (stage == "instructions") {
+    background(200);
+    textSize(60);
+    fill(100);
+    text("Instructions", 70, 50);
+    textSize(25);
+    text("This is a puzzle game. The object is to match the 3 by 3 grid with the solution" + "\n" + "\n" + "You can switch two tiles if they share one side" + "\n" + "\n" + "Try to match as quickly as possible or in the least nummber of moves" + "\n" + "\n" + "There are 9 levels", 20, 90, 460, 580);
+    back = new Button(color(255), color(150), 360, 520, 100, 40, 100, "Back", false, color(0), 20, 25, 10);
+    back.display();
+    if (back.bPressed) {
+      stage = "start";
+    }
+  } else if (stage == "credits") {
+    background(200);
+    fill(30);
+    textSize(40);
+    text("Thank you to Chrisir and PhiLho from the Proccessing Forum for your help with two-dimensional arrays and objects", 10, 10, 480, 580);
+    back2 = new Button(color(255), color(150), 360, 520, 100, 40, 100, "Back", false, color(0), 20, 25, 10);
+    back2.display();
+    if (back2.bPressed) {
+      stage = "start";
+    }
+  }
+}
+
+class Board { 
+  color c;
+  float x;
+  float y;
+  float twidth;
+  float theight;
+
+  Board(color tempC, float tempX, float tempY, float tempTwidth, float tempTheight) { 
+    c = tempC;
+    x = tempX;
+    y = tempY;
+    twidth = tempTwidth;
+    theight = tempTheight;
+  }
+
+  void display() {
+    fill(c);
+    rect(x, y, twidth, theight);
+  }
+
+  void switchTiles(Tile s1, Tile s2) {
+    color sC = s2.c;
+    s2.c = s1.c;
+    s1.c = sC;
+  }
+}
+
+class Tile {
+  int x, y; // Position
+  int tileWidth, tileHeight;
+  boolean selected;
+  color c; // And its color
+  int num;
+  Tile(int tempX, int tempY, int tempTwidth, int tempTheight, boolean tempSelected, color tempC, int tempNum) { 
+    c = tempC;
+    x = tempX;
+    y = tempY;
+    tileWidth = tempTwidth;
+    tileHeight = tempTheight;
+    selected = tempSelected;
+    num = tempNum;
+  }
+
+  void display() {
+    strokeWeight(3);
+    if (selected) {
+      strokeWeight(4);
+      stroke(255);
+    } else {
+      strokeWeight(2);
+      stroke(0);
+    }
+    fill(c);
+    rect(x, y, tileWidth, tileHeight);
+  }
+  void checkIfPressed() {
+    if (mouseX >= x && mouseX <= x+tileWidth && mouseY >= y && mouseY <= y+tileHeight) {
+      if (!selected1 && !this.selected) {
+        space1 = this;
+        this.selected = true;
+        selected1 = true;
+      } else if (!selected2 && !this.selected) {
+        space2 = this;
+        this.selected = true;
+        selected2 = true;
+      }
+
+      if (selected2 && selected1) {
+        if (space1.num +1 == space2.num || space1.num == space2.num+1 || space1.num +3 == space2.num || space1.num == space2.num+3 || space1.num -1 == space2.num || space1.num == space2.num-1 || space1.num -3 == space2.num || space1.num == space2.num-3 || space1 == space2) { 
+          currentLevel.board.switchTiles(space1, space2);
+          currentLevel.moves++;
+          selected1 = false;
+          selected2 = false;
+          space1.selected = false;
+          space2.selected = false;
+        } else {
+          selected1 = false;
+          selected2 = false;
+          space1.selected = false;
+          space2.selected = false;
+        }
+      }
+    }
+  }
+}
+
+class Button {
+  color bC, bAltC, bTextC;
+  float bX, bY, bW, bH, bR;
+  String bText;
+  boolean bPressed;
+  int bTextS, bXO, bYO;
+
+  Button(color tempbC, color tempbAltC, float tempbX, float tempbY, float tempbW, float tempbH, float tempbR, String tempbText, boolean tempbPressed, color tempbTextC, int tempbTextS, int tempbXO, int tempbYO) {
+    bC = tempbC;
+    bAltC = tempbAltC;
+    bX = tempbX;
+    bY = tempbY;
+    bW = tempbW;
+    bH = tempbH;
+    bR = tempbR;
+    bText = tempbText;
+    bPressed = tempbPressed;
+    bTextC = tempbTextC;
+    bTextS = tempbTextS;
+    bXO = tempbXO;
+    bYO = tempbYO;
+  }
+  void display() {
+    if (mouseX > bX && mouseY > bY && mouseX < bX+bW && mouseY < bY+bH) {
+      fill(bAltC);
+      if (mousePressed) {
+        this.bPressed = true;
+      }
+    } else {
+      fill(bC);
+    }
+    rect(bX, bY, bW, bH, 5);
+    fill(bTextC);
+    textSize(bTextS);
+    text(bText, bX+bXO, bY+bYO, bX+bW, bY+bH);
+  }
+}
+
+class Timer {
+  long startTime;
+  long timeSoFar;
+  boolean running;
+  int x, y;
+
+  Timer(int inX, int inY) {
+    x = inX;
+    y = inY;
+    running = false;
+    timeSoFar = 0;
+  }
+
+  int currentTime() {
+    if (running)
+      return ((int)((millis()-startTime)/1000.0));
+    else
+      return ((int)(timeSoFar/1000.0));
+  }
+
+  void start() {
+    running = true ;
+    startTime = millis() ;
+  }
+
+  void restart() {
+    start() ;
+  }
+
+  void pause() {
+    if (running) {
+      timeSoFar = millis() - startTime ;
+      running = false ;
+    }
+  }
+
+  void continueRunning() {
+    if (!running) { 
+      startTime = millis() - timeSoFar ;
+      running = true ;
+    }
+  }
+
+  void DisplayTime() {
+    int theTime ;
+    String output = "";
+
+    theTime = currentTime() ;
+    output = output + theTime ;
+
+    fill(0);
+    textSize(20);
+    text("Time: " + output, x, y) ;
+  }
+}
+
+class Level { 
+  color[] startPos; 
+  color[] solutionPos; 
+  Board board; 
+  Tile[] tiles; 
+  Tile[] answer; 
+  int stars; 
+  int moves; 
+  Level(color[] tempStartPos, color[] tempSolutionPos, Board tempBoard, Tile[] tempTiles, Tile[] tempAnswer, int tempStars, int tempMoves) { 
+    startPos = tempStartPos; 
+    solutionPos = tempSolutionPos; 
+    board = tempBoard; 
+    tiles = tempTiles; 
+    answer = tempAnswer; 
+    stars = tempStars; 
+    moves = tempMoves;
+  }
+
+  void displayLevel() {
+    background(200);
+    //solution background
+    pushMatrix();
+    translate(100, -15);
+    scale(0.2);
+    fill(160);
+    rect(5, 105, 490, 490);
+    popMatrix();
+    for (int i = 0; i < tileNum; i++) {
+      this.tiles[i].display();
+      //solution tiles
+      pushMatrix();
+      translate(100, -15);
+      scale(0.2);
+      this.answer[i].display();
+      popMatrix();
+    }
+
+    fill(0);
+    text("Solution:", 10, 50);
+    textSize(20);
+    fill(0);
+    text("Moves: " + this.moves, 400, 50);
+    timer.DisplayTime();
+    currentLevel = this;
+  }
+}
+void mousePressed() {
+  for (int i = 0; i < tileNum; i++) {
+    currentLevel.tiles[i].checkIfPressed();
+  }
+  int n = 0;
+  for (int i = 0; i < tileNum; i++) {
+    if (currentLevel.tiles[i].c == currentLevel.solutionPos[i]) {
+      n++;
+    }
+  }
+  if (n==tileNum) {
+    stage = "win";
+  }
+}
