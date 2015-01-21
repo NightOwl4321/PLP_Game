@@ -2,6 +2,8 @@ final int tileNum = 9;
 final int rows = 3;
 final int coloms = 3;
 
+final color backCol = color(200);
+
 //for tile switching
 boolean selected1 = false;
 boolean selected2 = false;
@@ -34,6 +36,11 @@ color[] colors = {
   color(255, 0, 255), color(28, 131, 0), color(0, 255, 255),
 };
 
+//global answer
+color[] answerT = { 
+    color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 166, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255), color(111, 60, 139)
+  };
+
 //global inisilazation
 Level currentLevel;
 
@@ -41,55 +48,48 @@ Level currentLevel;
 Board board1;
 Level level1;
 Tile[] tileLev1 = new Tile[9];
-Tile[] answerLev1 = new Tile[9];
-
 //level 2
 Board board2;
 Level level2;
 Tile[] tileLev2 = new Tile[9];
-Tile[] answerLev2 = new Tile[9];
 
 //level 3
 Board board3;
 Level level3;
 Tile[] tileLev3 = new Tile[9];
-Tile[] answerLev3 = new Tile[9];
 
 //level 4
 Board board4;
 Level level4;
 Tile[] tileLev4 = new Tile[9];
-Tile[] answerLev4 = new Tile[9];
+
 
 //level 5
 Board board5;
 Level level5;
 Tile[] tileLev5 = new Tile[9];
-Tile[] answerLev5 = new Tile[9];
 
 //level 6
 Board board6;
 Level level6;
 Tile[] tileLev6 = new Tile[9];
-Tile[] answerLev6 = new Tile[9];
 
 //level 7
 Board board7;
 Level level7;
 Tile[] tileLev7 = new Tile[9];
-Tile[] answerLev7 = new Tile[9];
 
 //level 8
 Board board8;
 Level level8;
 Tile[] tileLev8 = new Tile[9];
-Tile[] answerLev8 = new Tile[9];
 
 //level 9
 Board board9;
 Level level9;
 Tile[] tileLev9 = new Tile[9];
-Tile[] answerLev9 = new Tile[9];
+
+Tile[] answer = new Tile[9];
 
 
 //holds what page is on
@@ -113,10 +113,10 @@ void setup() {
     color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
   };  
   color[] layoutLev2 = {
-    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+      color(0, 0, 255), color(255, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 166, 0), color(111, 60, 139), color(0, 255, 255), color(28, 131, 0)
   };
   color[] layoutLev3 = {
-    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+    color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 0, 0), color(0, 255, 0), color(255, 0, 255), color(255, 255, 0), color(28, 131, 0), color(0, 255, 255)
   };
   color[] layoutLev4 = {
     color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
@@ -136,16 +136,12 @@ void setup() {
   color[] layoutLev9 = {
     color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
   };
-  
-  color[] solutionLayout = { 
-    color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 166, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255), color(111, 60, 139)
-  };
 
   size(500, 600);
 
   final int size = 150;
-  
-//set up tiles
+
+  //set up tiles
   int counter = 0;
 
   for (int i = 0; i < rows; i++) {
@@ -157,26 +153,164 @@ void setup() {
     }
   }
 
-//set up solution
-  int counter1 = 0;
+  counter = 0;
 
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < coloms; j++) {
-      answerLev1[counter1] = new Tile(i*size+10+(i+1)*(160-size-2), j*size+110+(j+1)*(160-size-2), //x, y
-      size, size, false, solutionLayout[counter1], counter1);
-      counter1++;
+      System.out.println(counter);
+      tileLev2[counter] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, layoutLev2[counter], counter);
+      counter++;
+    }
+  }
+
+  counter = 0;
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      tileLev3[counter] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, layoutLev3[counter], counter);
+      counter++;
+    }
+  }
+
+  counter = 0;
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      tileLev4[counter] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, layoutLev4[counter], counter);
+      counter++;
+    }
+  }
+
+  counter = 0;
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      tileLev5[counter] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, layoutLev5[counter], counter);
+      counter++;
+    }
+  }
+
+  counter = 0;
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      tileLev6[counter] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, layoutLev6[counter], counter);
+      counter++;
+    }
+  }
+
+  counter = 0;
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      tileLev7[counter] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, layoutLev7[counter], counter);
+      counter++;
+    }
+  }
+
+  counter = 0;
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      tileLev8[counter] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, layoutLev8[counter], counter);
+      counter++;
+    }
+  }
+  
+  counter = 0;
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      tileLev9[counter] = new Tile(i*size+10+(i+1)*(160-size-2), 
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, layoutLev9[counter], counter);
+      counter++;
+    }
+  }
+
+  counter = 0;
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < coloms; j++) {
+      answer[counter] = new Tile(i*size+10+(i+1)*(160-size-2),
+      j*size+110+(j+1)*(160-size-2), 
+      size, size, false, answerT[counter], counter);
+      counter++;
     }
   }
 
   board1 = new Board(color(120), 10, 110, 480, 480);
-  level1 = new Level (layoutLev1, solutionLayout, board1, tileLev1, answerLev1, 0, 0);
+  level1 = new Level (layoutLev1, board1, tileLev1, 0, 0);
+
+  board2 = new Board(color(120), 10, 110, 480, 480);
+  level2 = new Level (layoutLev1, board1, tileLev2, 0, 0);
+
+  board3 = new Board(color(120), 10, 110, 480, 480);
+  level3 = new Level (layoutLev1, board1, tileLev3, 0, 0);
+
+  board4 = new Board(color(120), 10, 110, 480, 480);
+  level4 = new Level (layoutLev1, board1, tileLev4, 0, 0);
+
+  board5 = new Board(color(120), 10, 110, 480, 480);
+  level5 = new Level (layoutLev1, board1, tileLev5, 0, 0);
+
+  board6 = new Board(color(120), 10, 110, 480, 480);
+  level6 = new Level (layoutLev1, board1, tileLev6, 0, 0);
+
+  board7 = new Board(color(120), 10, 110, 480, 480);
+  level7 = new Level (layoutLev1, board1, tileLev7, 0, 0);
+
+  board8 = new Board(color(120), 10, 110, 480, 480);
+  level8 = new Level (layoutLev1, board1, tileLev8, 0, 0);
+
+  board9 = new Board(color(120), 10, 110, 480, 480);
+  level9 = new Level (layoutLev1, board1, tileLev9, 0, 0);
 
   timer = new Timer(400, 80);
   timer.start() ;
 }
 void draw() {
   if (stage == "level1") {
+    currentLevel = level1;
     level1.displayLevel();
+  } else if (stage == "level2") {
+    currentLevel = level2;
+    level2.displayLevel();
+  } else if (stage == "level3") {
+    currentLevel = level3;
+    level3.displayLevel();
+  } else if (stage == "level4") {
+    currentLevel = level4;
+    level4.displayLevel();
+  } else if (stage == "level5") {
+    currentLevel = level5;
+    level5.displayLevel();
+  } else if (stage == "level6") {
+    currentLevel = level6;
+    level6.displayLevel();
+  } else if (stage == "level7") {
+    currentLevel = level7;
+    level7.displayLevel();
+  } else if (stage == "level8") {
+    currentLevel = level8;
+    level8.displayLevel();
+  } else if (stage == "level9") {
+    currentLevel = level9;
+    level9.displayLevel();
   } else if (stage == "win") {
     background(#BBF3FA);
     noStroke();
@@ -537,12 +671,10 @@ class Level {
   Tile[] answer; 
   int stars; 
   int moves; 
-  Level(color[] tempStartPos, color[] tempSolutionPos, Board tempBoard, Tile[] tempTiles, Tile[] tempAnswer, int tempStars, int tempMoves) { 
+  Level(color[] tempStartPos, Board tempBoard, Tile[] tempTiles, int tempStars, int tempMoves) { 
     startPos = tempStartPos; 
-    solutionPos = tempSolutionPos; 
     board = tempBoard; 
     tiles = tempTiles; 
-    answer = tempAnswer; 
     stars = tempStars; 
     moves = tempMoves;
   }
@@ -581,7 +713,7 @@ void mousePressed() {
   }
   int n = 0;
   for (int i = 0; i < tileNum; i++) {
-    if (currentLevel.tiles[i].c == currentLevel.solutionPos[i]) {
+    if (currentLevel.tiles[i].c == answerT[i]) {
       n++;
     }
   }
