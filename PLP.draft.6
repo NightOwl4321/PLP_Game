@@ -33,13 +33,13 @@ Button back2;
 color[] colors = {
   color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), 
   color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), 
-  color(255, 0, 255), color(28, 131, 0), color(0, 255, 255),
+  color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
 };
 
 //global answer
 color[] answerT = { 
     color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 166, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255), color(111, 60, 139)
-  };
+};
 
 //global inisilazation
 Level currentLevel;
@@ -108,12 +108,13 @@ int x2 = 357+7;
 //close
 
 void setup() {
-
+  
+//Arrays for the star positions of all the tiles in each level
   color[] layoutLev1 = {
     color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
   };  
   color[] layoutLev2 = {
-      color(0, 0, 255), color(255, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 166, 0), color(111, 60, 139), color(0, 255, 255), color(28, 131, 0)
+      color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
   };
   color[] layoutLev3 = {
     color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 0, 0), color(0, 255, 0), color(255, 0, 255), color(255, 255, 0), color(28, 131, 0), color(0, 255, 255)
@@ -141,7 +142,7 @@ void setup() {
 
   final int size = 150;
 
-  //set up tiles
+//set up tiles for each level (x, y, etc)
   int counter = 0;
 
   for (int i = 0; i < rows; i++) {
@@ -253,6 +254,7 @@ void setup() {
     }
   }
 
+//boards and level for each level
   board1 = new Board(color(120), 10, 110, 480, 480);
   level1 = new Level (layoutLev1, board1, tileLev1, 0, 0);
 
@@ -279,11 +281,12 @@ void setup() {
 
   board9 = new Board(color(120), 10, 110, 480, 480);
   level9 = new Level (layoutLev1, board1, tileLev9, 0, 0);
-
+//start timer
   timer = new Timer(400, 80);
   timer.start() ;
 }
 void draw() {
+ 
   if (stage == "level1") {
     currentLevel = level1;
     level1.displayLevel();
@@ -314,8 +317,10 @@ void draw() {
   } else if (stage == "win") {
     background(#BBF3FA);
     noStroke();
+    //background extra color
     fill(200);
     rect(10, 10, 480, 580, 10);
+    //to figure how long it took to solve
     timer.pause();
     int time = timer.currentTime();
     textSize(60);
@@ -324,6 +329,7 @@ void draw() {
     restart = new Button(color(255), color(150), 60, 290, 100, 100, 100, "", false, color(0), 20, 10, 10);
     levelSelect = new Button(color(255), color(150), 200, 290, 100, 100, 100, "", false, color(0), 20, 10, 10);
     next = new Button(color(255), color(150), 340, 290, 100, 100, 100, "", false, color(0), 20, 10, 10);
+    //give stars based on time and move efficincy
     if (currentLevel.moves<=8 || time <= 13) {
       currentLevel.stars = 3;
     } else if (currentLevel.moves <= 10 || time <=20) {
@@ -334,22 +340,27 @@ void draw() {
       currentLevel.stars = 0;
     }
 
+    //display stars
     for (int starC = currentLevel.stars; starC > 0; starC--) {
       textSize(100);
       fill(#F5E12A );
       text("\u2605", starC*120-40, 250);
     }
     textSize(20);
+    //show buttons
     restart.display();
     levelSelect.display();
     next.display();
+    //forwars arrow (fastforward symbol)
     int tX = 370;
     int tY = 340;
     int tS = 50;
     triangle(tX, tY-tS/2, tX, tY+tS/2, tX+tS, tY);
     fill(0);
     textSize(90);
+    //restart
     text("\u21BB", 65, 370);
+    // all the little level rects
     float lX = 245;
     float lY = 325;
     float lS = 10;
@@ -378,6 +389,7 @@ void draw() {
     rect(310, 60, 7, 60);
     rect(357, 60, 7, 60);
     stroke(255);
+    //sides of animation
     if (x1 == 317) {
       delay(1000);
       right1 = true;
@@ -419,6 +431,7 @@ void draw() {
       }
     }
 
+  //for the animation, to have them cycle through the colors offset by one
     fill(colors[i]);
     rect(x1, 60, 30, 30, 2);
     fill(colors[j]);
@@ -452,12 +465,15 @@ void draw() {
       stage = "credits";
     }
   } else if (stage == "reset") {
+    //resets time
     timer.restart();
+    //resets moves
     currentLevel.moves = 0;
-    stage = original;
+    //current tiles = start positions
     for (int i = 0; i < tileNum; i++) {
       currentLevel.tiles[i].c = currentLevel.startPos[i];
     }
+    stage = original;
   } else if (stage == "instructions") {
     background(200);
     textSize(60);
@@ -502,7 +518,7 @@ class Board {
     fill(c);
     rect(x, y, twidth, theight);
   }
-
+  //ste color so one isnt overwritten
   void switchTiles(Tile s1, Tile s2) {
     color sC = s2.c;
     s2.c = s1.c;
@@ -549,7 +565,7 @@ class Tile {
         this.selected = true;
         selected2 = true;
       }
-
+      //if one up one down one left one right
       if (selected2 && selected1) {
         if (space1.num +1 == space2.num || space1.num == space2.num+1 || space1.num +3 == space2.num || space1.num == space2.num+3 || space1.num -1 == space2.num || space1.num == space2.num-1 || space1.num -3 == space2.num || space1.num == space2.num-3 || space1 == space2) { 
           currentLevel.board.switchTiles(space1, space2);
@@ -592,6 +608,7 @@ class Button {
     bYO = tempbYO;
   }
   void display() {
+    //color change
     if (mouseX > bX && mouseY > bY && mouseX < bX+bW && mouseY < bY+bH) {
       fill(bAltC);
       if (mousePressed) {
@@ -687,6 +704,7 @@ class Level {
     scale(0.2);
     fill(160);
     rect(5, 105, 490, 490);
+    //smaller solution
     popMatrix();
     for (int i = 0; i < tileNum; i++) {
       this.tiles[i].display();
@@ -712,6 +730,7 @@ void mousePressed() {
     currentLevel.tiles[i].checkIfPressed();
   }
   int n = 0;
+  //runs 9 times, check if right, if right every time, win
   for (int i = 0; i < tileNum; i++) {
     if (currentLevel.tiles[i].c == answerT[i]) {
       n++;
