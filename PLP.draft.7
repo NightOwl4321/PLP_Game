@@ -9,6 +9,8 @@ final color textCol = color(100);
 boolean selected1 = false;
 boolean selected2 = false;
 
+boolean pressable = false;
+
 Timer timer;
 
 //holds space in tile swap mech/
@@ -127,25 +129,25 @@ void setup() {
       color(111, 60, 139), color(255, 166, 0), color(255, 255, 0), color(255, 0, 255), color(255, 0, 0), color(28, 131, 0), color(0, 255, 255), color(0, 255, 0), color(0, 0, 255)
   };
   color[] layoutLev3 = {
-    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 0, 255), color(0, 255, 0), color(255, 255, 0), color(0, 255, 255), color(28, 131, 0),
   };
   color[] layoutLev4 = {
-    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+    color(255, 166, 0), color(255, 0, 0), color(0, 255, 0), color(111, 60, 139), color(0, 0, 255), color(255, 255, 0), color(28, 131, 0), color(0, 255, 255), color(255, 0, 255),
   };
   color[] layoutLev5 = {
-    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+    color(111, 60, 139), color(255, 0, 0), color(255, 166, 0), color(0, 0, 255), color(255, 0, 255), color(0, 255, 0), color(28, 131, 0), color(255, 255, 0), color(0, 255, 255)
   };
   color[] layoutLev6 = {
-    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+    color(255, 0, 0), color(111, 60, 139), color(255, 0, 255), color(255, 166, 0), color(255, 255, 0), color(0, 0, 255), color(0, 255, 0), color(28, 131, 0), color(0, 255, 255)
   };
   color[] layoutLev7 = {
-    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+    color(255, 0, 255), color(255, 0, 0), color(255, 166, 0), color(0, 0, 255), color(0, 255, 0), color(255, 255, 0), color(28, 131, 0), color(0, 255, 255), color(111, 60, 139),
   };
   color[] layoutLev8 = {
-    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+    color(28, 131, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(0, 255, 0), color(255, 0, 0), color(255, 0, 255), color(0, 255, 255), color(255, 255, 0),
   };
   color[] layoutLev9 = {
-    color(255, 0, 0), color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 255, 0), color(0, 255, 0), color(255, 0, 255), color(28, 131, 0), color(0, 255, 255)
+    color(111, 60, 139), color(255, 166, 0), color(0, 0, 255), color(255, 0, 255), color(255, 255, 0), color(0, 255, 0), color(28, 131, 0), color(0, 255, 255), color(255, 0, 0),
   };
 
   size(500, 600);
@@ -394,7 +396,6 @@ void draw() {
       original = "levelSelect";
     }
     if(next.bPressed) {
-      stage = "reset";
       if(currentLevel == level1) 
         original = "level2";
       else if(currentLevel == level2) 
@@ -414,6 +415,7 @@ void draw() {
       else if(currentLevel == level9) 
         original = "gameover";
       
+      stage = "reset";
     }
   } else if (stage=="start") {
     background(backCol);
@@ -609,7 +611,7 @@ void showStars(Level tempLevel, int x, int y, int size) {
       for (int starC = tempLevel.stars; starC > 0; starC--) {
         textSize(size*2);
         fill(#F5E12A );
-        text("\u2605", starC*(x+x*0.5)-x*0.4, y);
+        text("\u2605", x+starC*20, y);
       }
     } else {
       if(tempLevel!=level1) {
@@ -730,7 +732,7 @@ class Button {
     //color change
     if (mouseX > bX && mouseY > bY && mouseX < bX+bW && mouseY < bY+bH) {
       fill(bAltC);
-      if (mousePressed) {
+      if (mousePressed && pressable == true) {
         this.bPressed = true;
       }
     } else {
@@ -838,6 +840,8 @@ class Level {
       sol[i].display();
       popMatrix();
     }
+   
+
     fill(0);
     text("Solution:", 10, 50);
     textSize(20);
@@ -847,8 +851,11 @@ class Level {
     currentLevel = this;
   }
 }
+
+////////////Down here this fix save bookmark///////////////
+
 void mousePressed() {
-  for (int i = 0; i < tileNum; i++) {
+   for (int i = 0; i < tileNum; i++) {
     currentLevel.tiles[i].checkIfPressed();
   }
   int n = 0;
@@ -861,4 +868,6 @@ void mousePressed() {
   if (n==tileNum) {
     stage = "win";
   }
+  
+  pressable = true;
 }
